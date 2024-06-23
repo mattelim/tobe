@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "no-comments",
+    "autofix",
+    "unused-imports"
+  ],
+  "ignorePatterns": ["node_modules/", "dist/", "build/", ".next/", "out/", "public"],
+  "rules": {
+    "no-comments/disallowComments": "error",
+    "autofix/no-console": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": "error"
+  }
+}
