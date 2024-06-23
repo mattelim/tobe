@@ -36,6 +36,8 @@ yarn-error.log*
 next-env.d.ts
 
 client_secret.json
+client_secret_[0-9]*.json
 credentials.json
+credentials_[0-9]*.json
 
 subs*.json

@@ -4,7 +4,23 @@
 
 ![](public/favicon.png)
 
-I created **Tobe** as I wanted more control over my YouTube watching habits. A lot of time is spent watching YouTube videos. **Tobe** aims to provide people with an improved watching experience by adding features such as video filtering and channel creation, and removing YouTube design patterns (such as autoplay and recommendations) to minimize distraction.
+**Tobe** pulls only videos of accounts that you have subscribed to and provides you with additional features to organize and filter them.
+
+I created **Tobe** as I wanted more control over my YouTube watching habits. A lot of time is spent watching YouTube videos. **Tobe** aims to foster a healthier watching environment by adding features such as video filtering and channel creation, and removing certain YouTube design patterns (such as autoplay and recommendations) to minimize distraction.
+
+### Features
+
+#### Channel creation
+
+Create channels by combining your subscriptions by theme. You can add 'include' and 'exclude' filters to specify the videos by title.
+
+![](public/feature_channels.png)
+
+#### Set time limits
+
+Set a daily time limit to keep track of how much time you have spent on **Tobe**.
+
+![](public/feature_timelimit.png)
 
 ### Installation and Setup
 
@@ -27,5 +43,6 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
 - [ ] Favorites `/favorites`
 - [ ] Watch Later `/watchlater`
 - [ ] Watch History `/watchhistory`
+- [ ] More watch time metrics and settings
 
 I built **Tobe** primarily for myself, feel free to make features requests but they will not be my priority. Please feel free to fork the repo and create your own versions!
