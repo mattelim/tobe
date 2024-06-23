@@ -1,5 +1,6 @@
-## Tobe
-A user-first YouTube video watcher that puts the remote in your hands.
+# Tobe 
+
+#### A user-first YouTube video watcher that puts the remote in your hands. 📺 🎛️
 
 ![](public/favicon.png)
 
@@ -22,9 +23,9 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
 
 ### Work-in-progress Features
 
-- [] Channels summary page `/channels`
-- [] Favorites `/favorites`
-- [] Watch Later `/watchlater`
-- [] Watch History `/watchhistory`
+- [ ] Channels summary page `/channels`
+- [ ] Favorites `/favorites`
+- [ ] Watch Later `/watchlater`
+- [ ] Watch History `/watchhistory`
 
 I built **Tobe** primarily for myself, feel free to make features requests but they will not be my priority. Please feel free to fork the repo and create your own versions!
