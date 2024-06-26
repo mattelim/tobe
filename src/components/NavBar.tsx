@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import {
   Home,
-  Heart,
+  Save,
   ListVideo,
   History,
   Settings,
@@ -21,6 +21,7 @@ import {
   useResizing,
   SecondsProvider,
   useChannels,
+  useSaved,
 } from "@/components/Contexts";
 import NavCollapsibleButton from "@/components/NavCollapsibleButton";
 import NavCollapsibleButtonScroll from "@/components/NavCollapsibleButtonScroll";
@@ -40,9 +41,12 @@ function NavBar() {
     setIsSubsExpanded,
     isChannelsExpanded,
     setIsChannelsExpanded,
+    isSavedExpanded,
+    setIsSavedExpanded,
   } = useNavBar();
 
   const { channels } = useChannels();
+  const { saved } = useSaved();
 
   const resizeWidthTimeout = useRef<any>(null);
   const resizePaddingTopTimeout = useRef<any>(null);
@@ -51,6 +55,7 @@ function NavBar() {
     setIsNavBarExpanded(!isNavBarExpanded);
     setIsSubsExpanded(false);
     setIsChannelsExpanded(false);
+    setIsSavedExpanded(false);
     clearTimeout(resizeWidthTimeout.current);
     resizeWidthTimeout.current = setTimeout(() => {
       calculateWidth();
@@ -99,6 +104,19 @@ function NavBar() {
             isNavBarExpanded={isNavBarExpanded}
             isListExpanded={isChannelsExpanded}
             setIsListExpanded={setIsChannelsExpanded}
+            objects={channels}
+            objectName="Channel"
+          />
+          <NavCollapsibleButtonScroll
+            title="Saved Videos"
+            href="/saved"
+            Icon={Save}
+            linkPrefix="/saved/"
+            isNavBarExpanded={isNavBarExpanded}
+            isListExpanded={isSavedExpanded}
+            setIsListExpanded={setIsSavedExpanded}
+            objects={saved}
+            objectName="Saved List"
           />
           <Button
             variant="ghost"
@@ -106,13 +124,6 @@ function NavBar() {
           >
             <ListVideo className="shrink-0" />
             {isNavBarExpanded && <p>Watch Later</p>}
-          </Button>
-          <Button
-            variant="ghost"
-            className={`${isNavBarExpanded ? "w-full justify-start" : "w-12 justify-center"} p-2 h-12 gap-3 transition-opacity ${router.pathname === "/watchLater" ? "hover:bg-primary-foreground" : "opacity-50 hover:opacity-100"}`}
-          >
-            <Heart className="shrink-0" />
-            {isNavBarExpanded && <p>Favourites</p>}
           </Button>
           <Button
             variant="ghost"

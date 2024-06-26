@@ -14,7 +14,7 @@ export default function Home() {
 
   const { subs } = useSubscriptions();
 
-  if ((slug as string).startsWith("UC")) {
+  if (slug?.includes("UC") && subs) {
     router.push(`/subs/${subs.find((s) => s.id === slug)?.snippet.customUrl}`);
   }
 
@@ -25,7 +25,8 @@ export default function Home() {
     if (userSettings?.video?.noShorts) {
       return (
         video.contentDetails.duration.includes("M") &&
-        video.contentDetails.duration !== "PT1M"
+        video.contentDetails.duration !== "PT1M" &&
+        video.contentDetails.duration !== "PT1M1S"
       );
     }
     return true;

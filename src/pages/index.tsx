@@ -10,7 +10,8 @@ export default function Home() {
     if (userSettings?.video?.noShorts) {
       return (
         video.contentDetails.duration.includes("M") &&
-        video.contentDetails.duration !== "PT1M"
+        video.contentDetails.duration !== "PT1M" &&
+        video.contentDetails.duration !== "PT1M1S"
       );
     }
     return true;

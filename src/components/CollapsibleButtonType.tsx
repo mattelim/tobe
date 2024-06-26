@@ -37,5 +37,16 @@ export default function CollapsibleButtonType({
           </Link>
         </>
       );
+    case "/saved/":
+      return (
+        <>
+          <Link
+            href={linkPrefix + item?.title}
+            className="text-sm p-2 line-clamp-1"
+          >
+            {item.title}
+          </Link>
+        </>
+      );
   }
 }

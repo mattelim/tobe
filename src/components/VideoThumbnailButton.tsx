@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useSubscriptions } from "@/components/Contexts";
+import SaveVideosDropDown from "@/components/SaveVideosDropDown";
 
 export default function VideoThumbnailButton({
   item,
@@ -38,7 +39,7 @@ export default function VideoThumbnailButton({
   return (
     <Card
       key={item?.id}
-      className={`overflow-clip flex flex-col relative cursor-pointer ${item?.id === selectedVideo?.id ? "border-primary border-[1.5px] shadow" : ""}`}
+      className={`group overflow-clip flex flex-col relative cursor-pointer ${item?.id === selectedVideo?.id ? "border-primary border-[1.5px] shadow" : ""}`}
       onClick={() => setSelectedVideo(item)}
     >
       <div
@@ -69,6 +70,11 @@ export default function VideoThumbnailButton({
             </textPath>
           </text>
         </svg>
+      </div>
+      <div
+        className={`absolute z-20 right-0 p-2 justify-center items-center flex invisible group-hover:visible`}
+      >
+        <SaveVideosDropDown video={item} />
       </div>
       <Image
         width={320}

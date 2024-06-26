@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 
 import EditPane from "@/components/EditPane";
+import EditPaneSaved from "@/components/EditPaneSaved";
 import {
   useResizing,
   useUserSettings,
@@ -80,7 +81,7 @@ function PlayEdit({
       defaultValue="player"
       id="playEditContainer"
       style={{ width: iframeWidth }}
-      className={`${pinned ? "fixed border border-muted p-4 bg-background/80 backdrop-blur rounded-md overflow-clip shadow-md z-20" : ""}`}
+      className={`${pinned ? "fixed border border-muted p-4 bg-background/80 backdrop-blur rounded-md overflow-clip shadow-md z-30" : ""}`}
     >
       <div className="flex gap-2 justify-between pb-1">
         <div className="flex gap-2">
@@ -95,7 +96,8 @@ function PlayEdit({
               <RefreshCw strokeWidth={1} className="mr-2" /> Sync Subs
             </Button>
           )}
-          {router.pathname.includes("/channels") && (
+          {(router.pathname.includes("/channels") ||
+            router.pathname.includes("/saved")) && (
             <TabsList className="grid w-60 grid-cols-2">
               <TabsTrigger value="player" onClick={handleResize}>
                 Player
@@ -144,7 +146,11 @@ function PlayEdit({
         </TabsContent>
 
         <TabsContent value="edit">
-          <EditPane />
+          {router.pathname.includes("/channels") ? (
+            <EditPane />
+          ) : router.pathname.includes("/saved") ? (
+            <EditPaneSaved />
+          ) : null}
         </TabsContent>
       </div>
     </Tabs>

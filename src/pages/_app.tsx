@@ -4,6 +4,7 @@ import {
   ContextsProvider,
   ThumbnailSizeProvider,
   ChannelsProvider,
+  SavedProvider,
 } from "@/components/Contexts";
 
 export default function MyApp({ Component, pageProps }: any) {
@@ -15,7 +16,9 @@ export default function MyApp({ Component, pageProps }: any) {
     <ContextsProvider>
       <ThumbnailSizeProvider>
         <ChannelsProvider>
-          <LayoutPage {...pageProps} />
+          <SavedProvider>
+            <LayoutPage {...pageProps} />
+          </SavedProvider>
         </ChannelsProvider>
       </ThumbnailSizeProvider>
     </ContextsProvider>

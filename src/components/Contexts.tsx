@@ -98,6 +98,65 @@ export const ChannelsProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+interface SavedContextType {
+  saved: any[];
+  setSaved: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const SavedContext = createContext<SavedContextType>({
+  saved: [],
+  setSaved: () => {},
+});
+export const useSaved = () => useContext(SavedContext);
+
+export const SavedProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+
+  const [saved, setSaved] = useState<any[]>([]);
+
+  const setSavedCallback = useCallback((value: any) => setSaved(value), []);
+
+  const savedContextValues = useMemo(
+    () => ({
+      saved,
+      setSaved: setSavedCallback,
+    }),
+    [saved, setSavedCallback],
+  );
+
+  async function fetchSaved() {
+    const response = await fetch("/api/saved", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 401) {
+      const data = await response.json();
+      if (!router.query.code) {
+        router.push("/auth");
+      }
+    }
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+
+    setSaved(data);
+  }
+
+  useEffect(() => {
+    fetchSaved();
+  }, []);
+
+  return (
+    <SavedContext.Provider value={savedContextValues}>
+      {children}
+    </SavedContext.Provider>
+  );
+};
+
 interface ThumbnailSizeContextType {
   thumbnailSize: number;
   setThumbnailSize: React.Dispatch<React.SetStateAction<number>>;
@@ -158,6 +217,8 @@ interface NavBarContextType {
   setIsSubsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   isChannelsExpanded: boolean;
   setIsChannelsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  isSavedExpanded: boolean;
+  setIsSavedExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NavBarContext = createContext<NavBarContextType>({
@@ -167,6 +228,8 @@ const NavBarContext = createContext<NavBarContextType>({
   setIsSubsExpanded: () => {},
   isChannelsExpanded: false,
   setIsChannelsExpanded: () => {},
+  isSavedExpanded: false,
+  setIsSavedExpanded: () => {},
 });
 export const useNavBar = () => useContext(NavBarContext);
 
@@ -297,6 +360,7 @@ export const ContextsProvider = ({ children }: { children: ReactNode }) => {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(true);
   const [isSubsExpanded, setIsSubsExpanded] = useState(false);
   const [isChannelsExpanded, setIsChannelsExpanded] = useState(false);
+  const [isSavedExpanded, setIsSavedExpanded] = useState(false);
 
   const setIsNavBarExpandedCallback = useCallback(
     (value: any) => setIsNavBarExpanded(value),
@@ -310,6 +374,10 @@ export const ContextsProvider = ({ children }: { children: ReactNode }) => {
     (value: any) => setIsChannelsExpanded(value),
     [],
   );
+  const setIsSavedExpandedCallback = useCallback(
+    (value: any) => setIsSavedExpanded(value),
+    [],
+  );
 
   const navBarContextValues = useMemo(
     () => ({
@@ -319,15 +387,18 @@ export const ContextsProvider = ({ children }: { children: ReactNode }) => {
       setIsSubsExpanded: setIsSubsExpandedCallback,
       isChannelsExpanded,
       setIsChannelsExpanded: setIsChannelsExpandedCallback,
+      isSavedExpanded,
+      setIsSavedExpanded: setIsSavedExpandedCallback,
     }),
     [
       isNavBarExpanded,
       isSubsExpanded,
       isChannelsExpanded,
-
+      isSavedExpanded,
       setIsNavBarExpandedCallback,
       setIsSubsExpandedCallback,
       setIsChannelsExpandedCallback,
+      setIsSavedExpandedCallback,
     ],
   );
 
@@ -784,7 +855,9 @@ export const ContextsProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (subs.length > 0 && userSettings.video.retentionPeriodWeeks) {
-      checkFetchNewVideos();
+      if (process.env.NODE_ENV === "production") {
+        checkFetchNewVideos();
+      }
     }
   }, [subs, userSettings.video.retentionPeriodWeeks]);
 

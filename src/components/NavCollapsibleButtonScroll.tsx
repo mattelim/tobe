@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronDown } from "lucide-react";
 
 import CollapsibleButtonType from "@/components/CollapsibleButtonType";
-import { useChannels } from "@/components/Contexts";
+import { useChannels, useSaved } from "@/components/Contexts";
 
 function NavCollapsibleButton({
   title,
@@ -22,6 +22,8 @@ function NavCollapsibleButton({
   isNavBarExpanded,
   isListExpanded,
   setIsListExpanded,
+  objects,
+  objectName,
 }: {
   title: string;
   href: string;
@@ -30,20 +32,23 @@ function NavCollapsibleButton({
   isNavBarExpanded: boolean;
   isListExpanded: boolean;
   setIsListExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  objects: any[];
+  objectName: string;
 }) {
   const router = useRouter();
 
   const { slug } = router.query;
 
-  const { channels, setChannels } = useChannels();
+  const { setChannels } = useChannels();
+  const { setSaved } = useSaved();
 
-  async function postChannels(newChannels: any) {
-    const response = await fetch("/api/channels", {
+  async function postObjects(newObjects: any) {
+    const response = await fetch(`/api${href}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newChannels),
+      body: JSON.stringify(newObjects),
     });
 
     if (response.status === 401) {
@@ -58,9 +63,16 @@ function NavCollapsibleButton({
     const data = await response.json();
   }
 
-  function handleChange(newChannels: any) {
-    setChannels(newChannels);
-    postChannels(newChannels);
+  function handleChange(newObjects: any) {
+    switch (linkPrefix) {
+      case "/channels/":
+        setChannels(newObjects);
+        break;
+      case "/saved/":
+        setSaved(newObjects);
+        break;
+    }
+    postObjects(newObjects);
   }
 
   return (
@@ -94,12 +106,12 @@ function NavCollapsibleButton({
       <CollapsibleContent>
         <div className="flex flex-col rounded-md border mb-2 overflow-hidden bg-background">
           <ScrollArea className="h-40">
-            {channels.map((sub: any) => (
+            {objects.map((obj: any) => (
               <div
-                key={sub.id}
-                className={`group data-[selected=true]:bg-background hover:!bg-accent ${slug && sub?.title === slug ? "font-semibold !bg-accent/75" : ""}`}
+                key={obj.id}
+                className={`group data-[selected=true]:bg-background hover:!bg-accent ${slug && obj?.title === slug ? "font-semibold !bg-accent/75" : ""}`}
               >
-                <CollapsibleButtonType item={sub} linkPrefix={linkPrefix} />
+                <CollapsibleButtonType item={obj} linkPrefix={linkPrefix} />
               </div>
             ))}
           </ScrollArea>
@@ -107,19 +119,33 @@ function NavCollapsibleButton({
             variant={"outline"}
             className="m-1"
             onClick={() => {
-              const newChannels = [
-                ...channels,
-                {
-                  id: Math.random().toString(36).substring(2),
-                  order: 0,
-                  title: `New Channel ${channels.length + 1}`,
-                  channels: [],
-                },
-              ];
-              handleChange(newChannels);
+              switch (linkPrefix) {
+                case "/channels/":
+                  handleChange([
+                    ...objects,
+                    {
+                      id: Math.random().toString(36).substring(2),
+                      order: objects.length + 1,
+                      title: `New Channel ${objects.length + 1}`,
+                      channels: [],
+                    },
+                  ]);
+                  break;
+                case "/saved/":
+                  handleChange([
+                    ...objects,
+                    {
+                      id: Math.random().toString(36).substring(2),
+                      order: objects.length + 1,
+                      title: `Saved List ${objects.length + 1}`,
+                      videos: [],
+                    },
+                  ]);
+                  break;
+              }
             }}
           >
-            Create Channel
+            Create {objectName}
           </Button>
         </div>
       </CollapsibleContent>
