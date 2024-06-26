@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
 import {
@@ -37,16 +38,16 @@ export default function VideoThumbnailButton({
   return (
     <Card
       key={item?.id}
-      className="overflow-clip flex flex-col relative cursor-pointer"
+      className={`overflow-clip flex flex-col relative cursor-pointer ${item?.id === selectedVideo?.id ? "border-primary border-[1.5px] shadow" : ""}`}
       onClick={() => setSelectedVideo(item)}
     >
       <div
-        className={`absolute z-10 flex justify-center items-center w-full h-full text-lg tracking-wide text-secondary bg-secondary-foreground/75 ${item?.id === selectedVideo?.id ? "block" : "hidden"}`}
+        className={`absolute z-10 flex justify-center items-center w-full aspect-video text-lg tracking-wide text-secondary bg-secondary-foreground/75 overflow-hidden ${item?.id === selectedVideo?.id ? "block" : "hidden"}`}
       >
         <svg
           viewBox="0 0 250 250"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-32 h-32 animate-spin-slow timing"
+          className="w-3/4 h-3/4 animate-spin-slow timing"
         >
           <path
             id="circle"
@@ -92,33 +93,40 @@ export default function VideoThumbnailButton({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <div className="flex gap-3 mt-3">
-          <Image
-            width={32}
-            height={32}
-            className="rounded-full inline-block"
-            src={
-              subs.find((sub: any) => sub.id === item?.snippet?.channelId)
-                ?.snippet?.thumbnails.default.url
-            }
-            alt={item?.snippet?.channelTitle}
-          />
-          <div className="leading-tight">
-            <p className="text-xs text-muted-foreground line-clamp-1">
-              <span className="font-medium">{item?.snippet?.channelTitle}</span>
-            </p>
-            <p className="text-xs text-muted-foreground line-clamp-1">
-              {new Date(item?.snippet?.publishedAt).toLocaleString(undefined, {
-                weekday: "short",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })}
-            </p>
+        <Link href={`/subs/${item?.snippet?.channelId}`}>
+          <div className="flex gap-3 mt-3">
+            <Image
+              width={32}
+              height={32}
+              className="rounded-full inline-block"
+              src={
+                subs.find((sub: any) => sub.id === item?.snippet?.channelId)
+                  ?.snippet?.thumbnails.default.url
+              }
+              alt={item?.snippet?.channelTitle}
+            />
+            <div className="leading-tight">
+              <p className="text-xs text-muted-foreground line-clamp-1">
+                <span className="font-medium">
+                  {item?.snippet?.channelTitle}
+                </span>
+              </p>
+              <p className="text-xs text-muted-foreground line-clamp-1">
+                {new Date(item?.snippet?.publishedAt).toLocaleString(
+                  undefined,
+                  {
+                    weekday: "short",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                  },
+                )}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
       </div>
     </Card>
   );

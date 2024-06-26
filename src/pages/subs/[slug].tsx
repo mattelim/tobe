@@ -12,6 +12,12 @@ export default function Home() {
   const router = useRouter();
   const { slug } = router.query;
 
+  const { subs } = useSubscriptions();
+
+  if ((slug as string).startsWith("UC")) {
+    router.push(`/subs/${subs.find((s) => s.id === slug)?.snippet.customUrl}`);
+  }
+
   const { videos } = useVideos();
   const { userSettings } = useUserSettings();
 
@@ -31,8 +37,6 @@ export default function Home() {
       new Date(a.snippet.publishedAt).getTime()
     );
   });
-
-  const { subs } = useSubscriptions();
 
   const sub = subs.find((sub) => sub.snippet.customUrl === slug);
 
