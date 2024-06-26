@@ -41,3 +41,9 @@ credentials.json
 credentials_[0-9]*.json
 
 subs*.json
+
+.eslintrc_*.json
+.eslintrc-*.json
+
+videosData.json
+videosReqBody.json
