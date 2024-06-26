@@ -10,6 +10,6 @@
     "retentionPeriodWeeks": "4"
   },
   "watchLater": {
-    "retentionPeriod": "7"
+    "retentionPeriodDays": "7"
   }
 }

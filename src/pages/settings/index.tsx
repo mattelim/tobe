@@ -148,7 +148,7 @@ export default function Settings() {
                 </Select>
               </TableCell>
             </TableRow>
-            <TableRow>
+            <TableRow className="border-0">
               <TableCell className="align-top"></TableCell>
               <TableCell className="align-top">
                 <label htmlFor="noShorts" className="block w-32">
@@ -157,7 +157,7 @@ export default function Settings() {
               </TableCell>
               <TableCell className="align-top">
                 <Input
-                  className="w-6"
+                  className="w-6 h-6"
                   type="checkbox"
                   id="noShorts"
                   name="noShorts"
@@ -169,6 +169,61 @@ export default function Settings() {
                       video: {
                         ...userSettings.video,
                         noShorts: !e.target.checked,
+                      },
+                    };
+                    handleChange(newSettings);
+                  }}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow onClick={(e) => e.preventDefault()}>
+              <TableCell className="align-top"></TableCell>
+              <TableCell className="align-top">
+                <label htmlFor="noShorts" className="block w-32">
+                  Retention Period (weeks)
+                </label>
+              </TableCell>
+              <TableCell className="align-top">
+                <Input
+                  type="number"
+                  id="retentionPeriodWeeks"
+                  name="retentionPeriodWeeks"
+                  value={userSettings?.video?.retentionPeriodWeeks}
+                  onChange={(e) => {
+                    const newSettings = {
+                      ...userSettings,
+                      video: {
+                        ...userSettings.video,
+                        retentionPeriodWeeks: e.target.value,
+                      },
+                    };
+                    handleChange(newSettings);
+                  }}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow className="border-0 h-2"></TableRow>
+            <TableRow className="border-0">
+              <TableCell className="align-top">
+                <h2 className="text-base font-semibold mr-10">Watch Later</h2>
+              </TableCell>
+              <TableCell className="align-top">
+                <label htmlFor="thumbnailSize" className="block w-32">
+                  Retention Period (days)
+                </label>
+              </TableCell>
+              <TableCell className="align-top">
+                <Input
+                  type="number"
+                  id="retentionPeriodDays"
+                  name="retentionPeriodDays"
+                  value={userSettings?.watchLater?.retentionPeriodDays}
+                  onChange={(e) => {
+                    const newSettings = {
+                      ...userSettings,
+                      watchLater: {
+                        ...userSettings.watchLater,
+                        retentionPeriodDays: e.target.value,
                       },
                     };
                     handleChange(newSettings);
