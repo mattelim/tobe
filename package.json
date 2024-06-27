@@ -6,6 +6,7 @@
     "dev": "next dev -p 12345",
     "build": "next build",
     "start": "next start -p 12345",
+    "startopen": "open 'http://localhost:12345' && next start -p 12345",
     "lint": "next lint"
   },
   "dependencies": {
