@@ -11,6 +11,7 @@ import {
 
 import { useSubscriptions } from "@/components/Contexts";
 import SaveVideosDropDown from "@/components/SaveVideosDropDown";
+import WatchLaterButton from "@/components/WatchLaterButton";
 
 export default function VideoThumbnailButton({
   item,
@@ -72,9 +73,10 @@ export default function VideoThumbnailButton({
         </svg>
       </div>
       <div
-        className={`absolute z-20 right-0 p-2 justify-center items-center flex invisible group-hover:visible`}
+        className={`absolute z-20 right-0 p-2 justify-center items-center flex flex-col gap-2 invisible group-hover:visible`}
       >
         <SaveVideosDropDown video={item} />
+        <WatchLaterButton video={item} />
       </div>
       <Image
         width={320}

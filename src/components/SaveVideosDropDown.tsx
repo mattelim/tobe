@@ -47,7 +47,7 @@ export default function SaveVideosDropDown({ video }: { video: any }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button className="w-10 h-10 p-[0.375rem] shadow-white/50 shadow">
+        <Button className="w-10 h-10 p-[0.375rem] shadow-white/50 hover:border-white hover:border shadow">
           <Save strokeWidth={1.5} />
         </Button>
       </DropdownMenuTrigger>

@@ -118,13 +118,15 @@ function NavBar() {
             objects={saved}
             objectName="Saved List"
           />
-          <Button
-            variant="ghost"
-            className={`${isNavBarExpanded ? "w-full justify-start" : "w-12 justify-center"} p-2 h-12 gap-3 transition-opacity ${router.pathname === "/watchLater" ? "hover:bg-primary-foreground" : "opacity-50 hover:opacity-100"}`}
-          >
-            <ListVideo className="shrink-0" />
-            {isNavBarExpanded && <p>Watch Later</p>}
-          </Button>
+          <Link href="/watchlater">
+            <Button
+              variant="ghost"
+              className={`${isNavBarExpanded ? "w-full justify-start" : "w-12 justify-center"} p-2 h-12 gap-3 transition-opacity ${router.pathname === "/watchlater" ? "hover:bg-primary-foreground" : "opacity-50 hover:opacity-100"}`}
+            >
+              <ListVideo className="shrink-0" />
+              {isNavBarExpanded && <p>Watch Later</p>}
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             className={`${isNavBarExpanded ? "w-full justify-start" : "w-12 justify-center"} p-2 h-12 gap-3 transition-opacity ${router.pathname === "/watchLater" ? "hover:bg-primary-foreground" : "opacity-50 hover:opacity-100"}`}

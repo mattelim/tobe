@@ -157,6 +157,139 @@ export const SavedProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+interface WatchLaterContextType {
+  watchLater: any[];
+  setWatchLater: React.Dispatch<React.SetStateAction<any[]>>;
+  fetchWatchLater: () => void;
+  postWatchLater: (newObjects: any) => void;
+  handleWatchLater: (newWatchLater: any) => void;
+}
+
+const WatchLaterContext = createContext<WatchLaterContextType>({
+  watchLater: [],
+  setWatchLater: () => {},
+  fetchWatchLater: () => {},
+  postWatchLater: () => {},
+  handleWatchLater: () => {},
+});
+export const useWatchLater = () => useContext(WatchLaterContext);
+
+export const WatchLaterProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+
+  const [watchLater, setWatchLater] = useState<any[]>([]);
+
+  const setWatchLaterCallback = useCallback(
+    (value: any) => setWatchLater(value),
+    [],
+  );
+
+  async function fetchWatchLater() {
+    const response = await fetch("/api/watchlater", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 401) {
+      const data = await response.json();
+      if (!router.query.code) {
+        router.push("/auth");
+      }
+    }
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+
+    setWatchLater(data);
+  }
+
+  async function postWatchLater(newObjects: any) {
+    const response = await fetch("/api/watchlater", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newObjects),
+    });
+
+    if (response.status === 401) {
+      const data = await response.json();
+      if (!router.query.code) {
+        router.push("/auth");
+      }
+    }
+    if (!response.ok) {
+      return;
+    }
+    const data = await response.json();
+  }
+
+  const fetchWatchLaterCallback = useCallback(() => fetchWatchLater(), []);
+
+  const postWatchLaterCallback = useCallback(
+    (value: any) => postWatchLater(value),
+    [],
+  );
+
+  const handleWatchLater = (newWatchLater: any) => {
+    setWatchLater(newWatchLater);
+    postWatchLater(newWatchLater);
+  };
+
+  const handleWatchLaterCallback = useCallback(
+    (value: any) => handleWatchLater(value),
+    [],
+  );
+
+  useEffect(() => {
+    fetchWatchLater();
+  }, []);
+
+  const { userSettings } = useUserSettings();
+
+  useEffect(() => {
+    if (watchLater.length && userSettings.watchLater.retentionPeriodDays) {
+      const retentionDate = new Date();
+      retentionDate.setDate(
+        retentionDate.getDate() - userSettings.watchLater.retentionPeriodDays,
+      );
+      retentionDate.setHours(0, 0, 0, 0);
+      const newWatchLater = watchLater.filter(
+        (v) => new Date(v.savedAt) > retentionDate,
+      );
+      if (watchLater.length !== newWatchLater.length) {
+        handleWatchLater(newWatchLater);
+      }
+    }
+  }, [watchLater, userSettings.watchLater.retentionPeriodDays]);
+
+  const watchLaterContextValues = useMemo(
+    () => ({
+      watchLater,
+      setWatchLater: setWatchLaterCallback,
+      fetchWatchLater: fetchWatchLaterCallback,
+      postWatchLater: postWatchLaterCallback,
+      handleWatchLater: handleWatchLaterCallback,
+    }),
+    [
+      watchLater,
+      setWatchLaterCallback,
+      fetchWatchLaterCallback,
+      postWatchLaterCallback,
+      handleWatchLaterCallback,
+    ],
+  );
+
+  return (
+    <WatchLaterContext.Provider value={watchLaterContextValues}>
+      {children}
+    </WatchLaterContext.Provider>
+  );
+};
+
 interface ThumbnailSizeContextType {
   thumbnailSize: number;
   setThumbnailSize: React.Dispatch<React.SetStateAction<number>>;
@@ -428,7 +561,7 @@ export const ContextsProvider = ({ children }: { children: ReactNode }) => {
       retentionPeriodWeeks: null,
     },
     watchLater: {
-      retentionPeriod: null,
+      retentionPeriodDays: null,
     },
   });
 
