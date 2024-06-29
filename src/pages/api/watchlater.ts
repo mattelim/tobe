@@ -6,9 +6,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>,
 ) {
+  const filePath = path.resolve("./src/pages/api/watchlater.json");
+
   if (req.method === "GET") {
     try {
-      const data = require("./watchlater.json");
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
       res.status(200).json(data);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -16,7 +18,6 @@ export default async function handler(
   } else if (req.method === "POST") {
     try {
       const data = req.body;
-      const filePath = path.resolve("./src/pages/api/watchlater.json");
 
       fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
