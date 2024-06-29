@@ -40,8 +40,16 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
 ### Work-in-progress Features
 
 - [ ] Channels summary page `/channels`
-- [ ] Favorites `/favorites`
+- [ ] Saved Lists `/saved`
+  - [x] Create saved list
+  - [x] Delete saved list
+  - [x] Add video to saved list
+  - [ ] Delete video from saved list
+  - [ ] Saved list summary page
 - [ ] Watch Later `/watchlater`
+  - [x] Add video to watch later
+  - [x] Delete video from watch later
+  - [ ] Show countdown timer for watch later videos
 - [ ] Watch History `/watchhistory`
 - [ ] More watch time metrics and settings
 
