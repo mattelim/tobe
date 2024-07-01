@@ -18,7 +18,7 @@ Create channels by combining your subscriptions by theme. You can add 'include' 
 
 #### Set time limits
 
-Set a daily time limit to keep track of how much time you have spent on **Tobe**.
+Set a daily time limit to track how much time you have spent on **Tobe**.
 
 ![](public/feature_timelimit.png)
 
@@ -46,11 +46,11 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
   - [x] Add video to saved list
   - [ ] Delete video from saved list
   - [ ] Saved list summary page
-- [ ] Watch Later `/watchlater`
+- [x] Watch Later `/watchlater`
   - [x] Add video to watch later
   - [x] Delete video from watch later
-  - [ ] Show countdown timer for watch later videos
+  - [x] Show countdown timer for watch later videos
 - [ ] Watch History `/watchhistory`
 - [ ] More watch time metrics and settings
 
-I built **Tobe** primarily for myself, feel free to make features requests but they will not be my priority. Please feel free to fork the repo and create your own versions!
+I built **Tobe** primarily for myself, feel free to make feature requests but they will not be my priority. Please feel free to fork the repo and create your own versions!
