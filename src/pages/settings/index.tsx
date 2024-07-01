@@ -76,7 +76,7 @@ export default function Settings() {
                       ...userSettings,
                       time: {
                         ...userSettings.time,
-                        dailyLimit: e.target.value,
+                        dailyLimit: +e.target.value,
                       },
                     };
                     handleChange(newSettings);
@@ -179,7 +179,7 @@ export default function Settings() {
             <TableRow onClick={(e) => e.preventDefault()}>
               <TableCell className="align-top"></TableCell>
               <TableCell className="align-top">
-                <label htmlFor="noShorts" className="block w-32">
+                <label htmlFor="retentionPeriodWeeks" className="block w-32">
                   Retention Period (weeks)
                 </label>
               </TableCell>
@@ -194,7 +194,7 @@ export default function Settings() {
                       ...userSettings,
                       video: {
                         ...userSettings.video,
-                        retentionPeriodWeeks: e.target.value,
+                        retentionPeriodWeeks: +e.target.value,
                       },
                     };
                     handleChange(newSettings);
@@ -208,7 +208,7 @@ export default function Settings() {
                 <h2 className="text-base font-semibold mr-10">Watch Later</h2>
               </TableCell>
               <TableCell className="align-top">
-                <label htmlFor="thumbnailSize" className="block w-32">
+                <label htmlFor="retentionPeriodDays" className="block w-32">
                   Retention Period (days)
                 </label>
               </TableCell>
@@ -223,7 +223,7 @@ export default function Settings() {
                       ...userSettings,
                       watchLater: {
                         ...userSettings.watchLater,
-                        retentionPeriodDays: e.target.value,
+                        retentionPeriodDays: +e.target.value,
                       },
                     };
                     handleChange(newSettings);

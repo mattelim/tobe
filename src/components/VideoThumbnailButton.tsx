@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { useSubscriptions } from "@/components/Contexts";
+import { useSubscriptions, useUserSettings } from "@/components/Contexts";
 import SaveVideosDropDown from "@/components/SaveVideosDropDown";
 import WatchLaterButton from "@/components/WatchLaterButton";
 
@@ -23,6 +23,7 @@ export default function VideoThumbnailButton({
   selectedVideo: any;
 }) {
   const { subs } = useSubscriptions();
+  const { userSettings } = useUserSettings();
 
   function formatDuration(duration: string) {
     const match = duration?.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
@@ -36,6 +37,19 @@ export default function VideoThumbnailButton({
 
     return `${hours ? hours + ":" : ""}${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
+
+  function calculateDaysLeft(savedAt: string): number {
+    const expirationDate = new Date(savedAt);
+    expirationDate.setDate(
+      expirationDate.getDate() + userSettings.watchLater.retentionPeriodDays,
+    );
+    expirationDate.setHours(0, 0, 0, 0);
+    const todaysDate = new Date();
+    todaysDate.setHours(0, 0, 0, 0);
+    return (+expirationDate - +todaysDate) / (1000 * 60 * 60 * 24);
+  }
+
+  const daysLeft = calculateDaysLeft(item?.savedAt);
 
   return (
     <Card
@@ -136,6 +150,13 @@ export default function VideoThumbnailButton({
           </div>
         </Link>
       </div>
+      {item.savedAt && (
+        <div
+          className={`w-full p-1 flex items-center justify-center text-primary/50 ${daysLeft === 1 ? "bg-destructive/30" : "bg-accent"}`}
+        >
+          {daysLeft === 1 ? `${daysLeft} day left` : `${daysLeft} days left`}
+        </div>
+      )}
     </Card>
   );
 }

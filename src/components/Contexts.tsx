@@ -257,9 +257,11 @@ export const WatchLaterProvider = ({ children }: { children: ReactNode }) => {
         retentionDate.getDate() - userSettings.watchLater.retentionPeriodDays,
       );
       retentionDate.setHours(0, 0, 0, 0);
-      const newWatchLater = watchLater.filter(
-        (v) => new Date(v.savedAt) > retentionDate,
-      );
+      const newWatchLater = watchLater.filter((v) => {
+        const savedAtDate = new Date(v.savedAt);
+        savedAtDate.setHours(0, 0, 0, 0);
+        return savedAtDate > retentionDate;
+      });
       if (watchLater.length !== newWatchLater.length) {
         handleWatchLater(newWatchLater);
       }
