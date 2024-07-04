@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import VideosPage from "@/components/VideosPage";
 import Layout from "@/layouts/Layout1";
 import { useVideos, useUserSettings, useChannels } from "@/components/Contexts";
+import { ytDurationStringCheck } from "@/lib/utils";
 
 export default function Home() {
   const router = useRouter();
@@ -13,11 +14,7 @@ export default function Home() {
 
   const videosFiltered = videos.filter((video: any) => {
     if (userSettings?.video?.noShorts) {
-      return (
-        video.contentDetails.duration.includes("M") &&
-        video.contentDetails.duration !== "PT1M" &&
-        video.contentDetails.duration !== "PT1M1S"
-      );
+      return ytDurationStringCheck(video.contentDetails.duration);
     }
     return true;
   });
