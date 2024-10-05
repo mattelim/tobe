@@ -51,6 +51,7 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
   - [x] Add video to watch later
   - [x] Delete video from watch later
   - [x] Show countdown timer for watch later videos
+  - [ ] Add ability to sync Watch Later from Youtube
 - [ ] Watch History `/watchhistory`
 - [ ] More watch time metrics and settings
 
