@@ -40,13 +40,13 @@ Feel free to leave comments on the doc or an issue on GitHub if you face any dif
 ### Work-in-progress Features
 
 - [ ] Subs page pagination `/`
-- [ ] Channels summary page `/channels`
+- [x] Channels summary page `/channels`
 - [ ] Saved Lists `/saved`
   - [x] Create saved list
   - [x] Delete saved list
   - [x] Add video to saved list
   - [ ] Delete video from saved list
-  - [ ] Saved list summary page
+  - [x] Saved list summary page
 - [x] Watch Later `/watchlater`
   - [x] Add video to watch later
   - [x] Delete video from watch later

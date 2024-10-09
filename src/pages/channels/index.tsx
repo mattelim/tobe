@@ -1,27 +1,19 @@
-import VideosPage from "@/components/VideosPage";
+import VideosSummaryPage from "@/components/VideosSummaryPage";
 import Layout from "@/layouts/Layout1";
-import { useVideos, useUserSettings } from "@/components/Contexts";
-import { ytDurationStringCheck } from "@/lib/utils";
+import { useVideos, useUserSettings, useChannels } from "@/components/Contexts";
+import { videosFilter, createChannelsSummary } from "@/lib/utils";
 
 export default function Channels() {
   const { videos } = useVideos();
   const { userSettings } = useUserSettings();
 
-  const videosFiltered = videos.filter((video: any) => {
-    if (userSettings?.video?.noShorts) {
-      return ytDurationStringCheck(video.contentDetails.duration);
-    }
-    return true;
-  });
+  const { channels } = useChannels();
 
-  const videosByTime = videosFiltered.sort((a: any, b: any) => {
-    return (
-      new Date(b.snippet.publishedAt).getTime() -
-      new Date(a.snippet.publishedAt).getTime()
-    );
-  });
+  const videosFiltered = videosFilter(videos, userSettings);
 
-  return <VideosPage videosList={videosByTime.slice(0, 200)} />;
+  const channelsSummary = createChannelsSummary(videosFiltered, channels);
+
+  return <VideosSummaryPage summaryList={channelsSummary} />;
 }
 
 Channels.getLayout = function getLayout(page: React.ReactNode) {

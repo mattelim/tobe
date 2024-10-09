@@ -1,27 +1,18 @@
-import VideosPage from "@/components/VideosPage";
+import VideosSummaryPage from "@/components/VideosSummaryPage";
 import Layout from "@/layouts/Layout1";
-import { useVideos, useUserSettings } from "@/components/Contexts";
-import { ytDurationStringCheck } from "@/lib/utils";
+import { useSaved } from "@/components/Contexts";
 
 export default function Channels() {
-  const { videos } = useVideos();
-  const { userSettings } = useUserSettings();
+  const { saved } = useSaved();
 
-  const videosFiltered = videos.filter((video: any) => {
-    if (userSettings?.video?.noShorts) {
-      return ytDurationStringCheck(video.contentDetails.duration);
-    }
-    return true;
+  const savedVideoReversed = saved.map((s) => {
+    return {
+      ...s,
+      videos: s.videos.slice().reverse(),
+    };
   });
 
-  const videosByTime = videosFiltered.sort((a: any, b: any) => {
-    return (
-      new Date(b.snippet.publishedAt).getTime() -
-      new Date(a.snippet.publishedAt).getTime()
-    );
-  });
-
-  return <VideosPage videosList={videosByTime.slice(0, 200)} />;
+  return <VideosSummaryPage summaryList={savedVideoReversed} />;
 }
 
 Channels.getLayout = function getLayout(page: React.ReactNode) {
